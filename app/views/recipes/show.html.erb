@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @recipe.name %>
+</p>
+
+<% unless current_user.recipes.where(id: @recipe.id).any? %>
+<%= link_to "Start Recipe", user_recipes_path(recipe_id: @recipe.id), :method => :post, class: "btn btn-info btn-lg"  %>
+<% else %>
+<p><%= current_user.user_recipes.where(recipe_id: @recipe.id).first.state %></p>
+
+	<% if current_user.user_recipes.where(recipe_id: @recipe.id).first.state == "started" %>
+		<%= link_to "Half Complete", user_recipe_path(user_recipe: current_user.user_recipes.where(recipe_id: @recipe.id).first, state: "half_complete"), :method => :put, class: "btn btn-info btn-lg" %>
+	<% elsif current_user.user_recipes.where(recipe_id: @recipe.id).first.state ==  "half_complete" %>
+		<%= link_to "Complete", user_recipe_path(user_recipe: current_user.user_recipes.where(recipe_id: @recipe.id).first, state: "complete"), :method => :put, class: "btn btn-info btn-lg"  %>
+	<% else %>
+		<%= link_to "Reset", user_recipe_path(user_recipe: current_user.user_recipes.where(recipe_id: @recipe.id).first), :method => :delete, class: "btn btn-info btn-lg"  %>
+	<% end %>
+
+<% end %>
+
+<br>
+<%= link_to 'Edit', edit_recipe_path(@recipe) %> |
+<%= link_to 'Back', recipes_path %>
+
+<script>
+analytics.page("Recipe")
+</script>

@@ -1,0 +1,19 @@
+<% if current_user  %>
+	<% if params[:state] == "signed_in" %>
+		<script>
+			analytics.identify('<%= current_user.id %>');
+			analytics.track('Signed In');
+		</script>
+	<% elsif params[:state] == "signed_up" %>
+		<script>
+			analytics.alias('<%= current_user.id %>');
+			analytics.identify('<%= current_user.id %>', 
+				{email: '<%= current_user.email %>',
+				name: 'Tiago Martins',
+				createdAt: '<%= current_user.created_at %>',
+				subscription_state: '<%= current_user.aasm_state %>'
+			});
+			analytics.track('Signed Up');
+		</script>
+	<% end %>
+<% end %>
