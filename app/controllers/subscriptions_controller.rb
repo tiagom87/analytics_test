@@ -5,7 +5,7 @@
   	def start_trial
   		@user.start_trial
       @user.save
-  		redirect_to edit_user_registration_path(state: "trial_started", email: @user.email), notice: 'Trial Started'
+  		redirect_to edit_user_registration_path(state: "trial_started", email: @user.email, revenue: 29), notice: 'Trial Started'
   	end
 
   	def cancel_trial
